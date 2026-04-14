@@ -6,43 +6,34 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>BioStack</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 
 :root {
 –bg: #0a0a0a;
 –surface: #111111;
 –border: #1f1f1f;
 –orange: #f5620f;
-–orange-dim: #b84508;
 –orange-glow: rgba(245, 98, 15, 0.15);
 –text: #e8e0d5;
 –muted: #5a5248;
 }
 
 html, body {
-height: 100%;
+min-height: 100%;
 background: var(–bg);
 color: var(–text);
-font-family: ‘DM Mono’, monospace;
+font-family: ‘DM Mono’, ‘Courier New’, monospace;
 overflow-x: hidden;
 }
 
-/* noise overlay */
-body::before {
-content: ‘’;
-position: fixed;
-inset: 0;
-background-image: url(“data:image/svg+xml,%3Csvg viewBox=‘0 0 256 256’ xmlns=‘http://www.w3.org/2000/svg’%3E%3Cfilter id=‘n’%3E%3CfeTurbulence type=‘fractalNoise’ baseFrequency=‘0.9’ numOctaves=‘4’ stitchTiles=‘stitch’/%3E%3C/filter%3E%3Crect width=‘100%25’ height=‘100%25’ filter=‘url(%23n)’ opacity=‘0.04’/%3E%3C/svg%3E”);
-pointer-events: none;
-z-index: 0;
-opacity: 0.6;
-}
-
-/* animated grid */
-body::after {
-content: ‘’;
+.bg-grid {
 position: fixed;
 inset: 0;
 background-image:
@@ -51,12 +42,18 @@ linear-gradient(90deg, rgba(245,98,15,0.04) 1px, transparent 1px);
 background-size: 60px 60px;
 pointer-events: none;
 z-index: 0;
-animation: gridPulse 8s ease-in-out infinite;
 }
 
-@keyframes gridPulse {
-0%, 100% { opacity: 0.5; }
-50% { opacity: 1; }
+.bg-orb {
+position: fixed;
+width: 600px;
+height: 600px;
+border-radius: 50%;
+background: radial-gradient(circle, rgba(245,98,15,0.08) 0%, transparent 70%);
+pointer-events: none;
+z-index: 0;
+top: -200px;
+right: -200px;
 }
 
 .container {
@@ -68,57 +65,32 @@ flex-direction: column;
 align-items: center;
 justify-content: center;
 padding: 60px 24px;
+gap: 64px;
 }
 
-/* HEADER */
 header {
 text-align: center;
-margin-bottom: 72px;
 animation: fadeDown 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
 .tagline {
-font-family: ‘DM Mono’, monospace;
 font-size: 11px;
 letter-spacing: 0.3em;
 color: var(–orange);
 text-transform: uppercase;
 margin-bottom: 16px;
-opacity: 0.9;
 }
 
-.tagline::before { content: ’[ ‘; }
-.tagline::after  { content: ’ ]’; }
-
 h1 {
-font-family: ‘Bebas Neue’, sans-serif;
-font-size: clamp(80px, 14vw, 160px);
+font-family: ‘Bebas Neue’, Impact, sans-serif;
+font-size: clamp(72px, 14vw, 160px);
 line-height: 0.9;
 letter-spacing: 0.04em;
 color: var(–text);
-position: relative;
-display: inline-block;
 }
 
 h1 .accent {
 color: var(–orange);
-position: relative;
-}
-
-h1 .accent::after {
-content: ‘’;
-position: absolute;
-bottom: 4px;
-left: 0; right: 0;
-height: 4px;
-background: var(–orange);
-transform: scaleX(0);
-transform-origin: left;
-animation: underlineIn 0.6s 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-@keyframes underlineIn {
-to { transform: scaleX(1); }
 }
 
 .subtitle {
@@ -129,39 +101,51 @@ color: var(–muted);
 text-transform: uppercase;
 }
 
-/* CARDS GRID */
 .grid {
 display: grid;
-grid-template-columns: repeat(2, 1fr);
+grid-template-columns: 1fr 1fr;
 gap: 2px;
 width: 100%;
 max-width: 900px;
-border: 1px solid var(–border);
 background: var(–border);
-}
-
-.card:nth-child(5) {
-grid-column: 1 / -1;
+border: 1px solid var(–border);
 }
 
 .card {
 position: relative;
 background: var(–surface);
-padding: 40px 36px;
+padding: 40px 36px 56px 36px;
 text-decoration: none;
 color: var(–text);
 display: flex;
 flex-direction: column;
-gap: 16px;
+gap: 14px;
 overflow: hidden;
 transition: background 0.3s ease;
 animation: fadeUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
-.card:nth-child(1) { animation-delay: 0.2s; }
-.card:nth-child(2) { animation-delay: 0.3s; }
-.card:nth-child(3) { animation-delay: 0.4s; }
-.card:nth-child(4) { animation-delay: 0.5s; }
+.card:nth-child(1) { animation-delay: 0.15s; }
+.card:nth-child(2) { animation-delay: 0.25s; }
+.card:nth-child(3) { animation-delay: 0.35s; }
+.card:nth-child(4) { animation-delay: 0.45s; }
+.card:nth-child(5) {
+animation-delay: 0.55s;
+grid-column: 1 / -1;
+}
+
+.card::after {
+content: ‘’;
+position: absolute;
+left: 0;
+top: 0;
+bottom: 0;
+width: 3px;
+background: var(–orange);
+transform: scaleY(0);
+transform-origin: bottom;
+transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
 
 .card::before {
 content: ‘’;
@@ -172,47 +156,33 @@ opacity: 0;
 transition: opacity 0.3s ease;
 }
 
-.card::after {
-content: ‘’;
-position: absolute;
-left: 0; top: 0; bottom: 0;
-width: 3px;
-background: var(–orange);
-transform: scaleY(0);
-transform-origin: bottom;
-transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.card:hover::before { opacity: 1; }
-.card:hover::after  { transform: scaleY(1); }
 .card:hover { background: #161616; }
-
-.card-icon {
-font-size: 32px;
-line-height: 1;
-position: relative;
-z-index: 1;
-filter: grayscale(0.2);
-transition: transform 0.3s ease, filter 0.3s ease;
-}
-.card:hover .card-icon {
-transform: scale(1.15) rotate(-4deg);
-filter: grayscale(0);
-}
+.card:hover::before { opacity: 1; }
+.card:hover::after { transform: scaleY(1); }
 
 .card-num {
-position: absolute;
-top: 20px;
-right: 24px;
 font-size: 10px;
 letter-spacing: 0.2em;
 color: var(–muted);
-font-weight: 300;
+position: relative;
+z-index: 1;
+}
+
+.card-icon {
+font-size: 30px;
+line-height: 1;
+position: relative;
+z-index: 1;
+transition: transform 0.3s ease;
+}
+
+.card:hover .card-icon {
+transform: scale(1.15) rotate(-4deg);
 }
 
 .card-title {
-font-family: ‘Bebas Neue’, sans-serif;
-font-size: 28px;
+font-family: ‘Bebas Neue’, Impact, sans-serif;
+font-size: 26px;
 letter-spacing: 0.06em;
 line-height: 1;
 color: var(–text);
@@ -221,31 +191,34 @@ z-index: 1;
 transition: color 0.2s;
 }
 
-.card:hover .card-title { color: var(–orange); }
+.card:hover .card-title {
+color: var(–orange);
+}
 
 .card-desc {
 font-size: 11px;
 color: var(–muted);
-line-height: 1.6;
-letter-spacing: 0.04em;
+line-height: 1.65;
+letter-spacing: 0.03em;
 position: relative;
 z-index: 1;
-max-width: 240px;
+max-width: 260px;
 }
 
 .card-arrow {
 position: absolute;
-bottom: 28px;
-right: 28px;
-width: 32px;
-height: 32px;
+bottom: 24px;
+right: 24px;
+width: 30px;
+height: 30px;
 border: 1px solid var(–border);
 display: flex;
 align-items: center;
 justify-content: center;
-font-size: 14px;
+font-size: 13px;
 color: var(–muted);
 transition: background 0.2s, color 0.2s, border-color 0.2s, transform 0.2s;
+z-index: 1;
 }
 
 .card:hover .card-arrow {
@@ -255,9 +228,7 @@ border-color: var(–orange);
 transform: translate(2px, -2px);
 }
 
-/* FOOTER */
 footer {
-margin-top: 48px;
 font-size: 10px;
 letter-spacing: 0.2em;
 color: var(–muted);
@@ -275,39 +246,24 @@ from { opacity: 0; transform: translateY(24px); }
 to   { opacity: 1; transform: translateY(0); }
 }
 
-/* glow orb */
-.orb {
-position: fixed;
-width: 600px;
-height: 600px;
-border-radius: 50%;
-background: radial-gradient(circle, rgba(245,98,15,0.08) 0%, transparent 70%);
-pointer-events: none;
-z-index: 0;
-top: -200px;
-right: -200px;
-animation: orbFloat 10s ease-in-out infinite;
-}
-
-@keyframes orbFloat {
-0%, 100% { transform: translate(0,0); }
-50% { transform: translate(-40px, 40px); }
-}
-
-@media (max-width: 640px) {
+@media (max-width: 600px) {
 .grid { grid-template-columns: 1fr; }
-h1 { font-size: 80px; }
-header { margin-bottom: 48px; }
+.card:nth-child(5) { grid-column: 1; }
+h1 { font-size: 72px; }
+.card { padding: 32px 28px 52px 28px; }
 }
 </style>
 
 </head>
 <body>
-<div class="orb"></div>
+
+<div class="bg-grid"></div>
+<div class="bg-orb"></div>
+
 <div class="container">
 
   <header>
-    <p class="tagline">Personal Health Tools</p>
+    <p class="tagline">[ Personal Health Tools ]</p>
     <h1>BIO<span class="accent">STACK</span></h1>
     <p class="subtitle">Alle deine Tools. Ein Ort.</p>
   </header>
@@ -316,50 +272,51 @@ header { margin-bottom: 48px; }
 
 ```
 <a class="card" href="https://chris9100h.github.io/Peptide-Calculator/">
-  <span class="card-num">01 —</span>
-  <span class="card-icon">🧪</span>
+  <span class="card-num">01 &mdash;</span>
+  <span class="card-icon">&#x1F9EA;</span>
   <span class="card-title">Peptide Calculator</span>
-  <span class="card-desc">Dosierung & Rekonstituierung von Peptiden. Etiketten-Druck inklusive.</span>
-  <span class="card-arrow">↗</span>
+  <span class="card-desc">Dosierung &amp; Rekonstituierung von Peptiden. Etiketten-Druck inklusive.</span>
+  <span class="card-arrow">&#x2197;</span>
 </a>
 
 <a class="card" href="https://chris9100h.github.io/Weight-Tracker/">
-  <span class="card-num">02 —</span>
-  <span class="card-icon">⚖️</span>
+  <span class="card-num">02 &mdash;</span>
+  <span class="card-icon">&#x2696;&#xFE0F;</span>
   <span class="card-title">Weight Tracker</span>
-  <span class="card-desc">Gewichtsverlauf erfassen & visualisieren. Trends auf einen Blick.</span>
-  <span class="card-arrow">↗</span>
+  <span class="card-desc">Gewichtsverlauf erfassen &amp; visualisieren. Trends auf einen Blick.</span>
+  <span class="card-arrow">&#x2197;</span>
 </a>
 
 <a class="card" href="https://chris9100h.github.io/Watertracker_webapp/">
-  <span class="card-num">03 —</span>
-  <span class="card-icon">💧</span>
+  <span class="card-num">03 &mdash;</span>
+  <span class="card-icon">&#x1F4A7;</span>
   <span class="card-title">Water Tracker</span>
-  <span class="card-desc">Tägliche Wasseraufnahme loggen und Hydrationsziele im Blick behalten.</span>
-  <span class="card-arrow">↗</span>
+  <span class="card-desc">T&auml;gliche Wasseraufnahme loggen und Hydrationsziele im Blick behalten.</span>
+  <span class="card-arrow">&#x2197;</span>
 </a>
 
 <a class="card" href="https://chris9100h.github.io/Glucose-Log/">
-  <span class="card-num">04 —</span>
-  <span class="card-icon">🩸</span>
+  <span class="card-num">04 &mdash;</span>
+  <span class="card-icon">&#x1FA78;</span>
   <span class="card-title">Glucose Log</span>
   <span class="card-desc">Blutzuckerwerte tracken und Muster in deinen Messwerten erkennen.</span>
-  <span class="card-arrow">↗</span>
+  <span class="card-arrow">&#x2197;</span>
 </a>
 
 <a class="card" href="https://chris9100h.github.io/Medtracker/">
-  <span class="card-num">05 —</span>
-  <span class="card-icon">💊</span>
+  <span class="card-num">05 &mdash;</span>
+  <span class="card-icon">&#x1F48A;</span>
   <span class="card-title">Med Tracker</span>
-  <span class="card-desc">Medikamente & Einnahmen verwalten. Nie wieder eine Dosis verpassen.</span>
-  <span class="card-arrow">↗</span>
+  <span class="card-desc">Medikamente &amp; Einnahmen verwalten. Nie wieder eine Dosis verpassen.</span>
+  <span class="card-arrow">&#x2197;</span>
 </a>
 ```
 
   </div>
 
-  <footer>© 2026 &nbsp;·&nbsp; Chris &nbsp;·&nbsp; BioStack</footer>
+  <footer>&copy; 2026 &nbsp;&middot;&nbsp; Chris &nbsp;&middot;&nbsp; BioStack</footer>
 
 </div>
+
 </body>
 </html>
