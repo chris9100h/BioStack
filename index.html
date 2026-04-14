@@ -30,7 +30,7 @@ overflow-x: hidden;
 }
 
 body::before {
-content: ‘’;
+content: “”;
 position: fixed;
 inset: 0;
 background-image: url(“data:image/svg+xml,%3Csvg viewBox=‘0 0 256 256’ xmlns=‘http://www.w3.org/2000/svg’%3E%3Cfilter id=‘n’%3E%3CfeTurbulence type=‘fractalNoise’ baseFrequency=‘0.9’ numOctaves=‘4’ stitchTiles=‘stitch’/%3E%3C/filter%3E%3Crect width=‘100%25’ height=‘100%25’ filter=‘url(%23n)’ opacity=‘0.04’/%3E%3C/svg%3E”);
@@ -40,7 +40,7 @@ opacity: 0.6;
 }
 
 body::after {
-content: ‘’;
+content: “”;
 position: fixed;
 inset: 0;
 background-image:
@@ -84,8 +84,8 @@ margin-bottom: 16px;
 opacity: 0.9;
 }
 
-.tagline::before { content: ’[ ‘; }
-.tagline::after  { content: ’ ]’; }
+.tagline::before { content: “[”; margin-right: 6px; }
+.tagline::after  { content: “]”; margin-left: 6px; }
 
 h1 {
 font-family: ‘Bebas Neue’, sans-serif;
@@ -103,7 +103,7 @@ position: relative;
 }
 
 h1 .accent::after {
-content: ‘’;
+content: “”;
 position: absolute;
 bottom: 4px;
 left: 0; right: 0;
@@ -157,7 +157,7 @@ animation: fadeUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
 .card:nth-child(5) { animation-delay: 0.6s; }
 
 .card::before {
-content: ‘’;
+content: “”;
 position: absolute;
 inset: 0;
 background: var(–orange-glow);
@@ -166,7 +166,7 @@ transition: opacity 0.3s ease;
 }
 
 .card::after {
-content: ‘’;
+content: “”;
 position: absolute;
 left: 0; top: 0; bottom: 0;
 width: 3px;
